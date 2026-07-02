@@ -118,7 +118,7 @@
   .paths.three{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1040px}
   @media(max-width:900px){.paths.three{grid-template-columns:1fr;max-width:340px}.haven-card{height:300px}.haven-name{font-size:34px}}
   .hero-product{max-width:1040px;margin:0 auto 50px;display:grid;grid-template-columns:1fr 1.1fr;background:#16211B;border:1px solid rgba(217,179,104,.3);border-radius:16px;overflow:hidden}
-  .hp-img{background:linear-gradient(135deg,#20302A,#101813);min-height:320px;position:relative;display:flex;align-items:flex-end;padding:22px;margin:14px;border-radius:14px;overflow:hidden}
+  .hp-img{background:linear-gradient(135deg,#20302A,#101813);min-height:320px;position:relative;display:flex;align-items:center;justify-content:center;padding:22px;margin:14px;border-radius:14px;overflow:hidden}
   .hp-body{padding:36px 38px}
   .hp-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px}
   .hp-name{font-family:'Fraunces',serif;font-weight:300;font-size:30px;color:var(--cream);margin-bottom:14px}
@@ -159,8 +159,8 @@
 
 
   .hp-img{position:relative}
-  .hp-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:22px}
-  .hp-img .pcard-badge{position:relative;z-index:2}
+  .hp-img img{position:static;display:block;max-width:100%;max-height:300px;width:auto;height:auto;border-radius:14px}
+  .hp-img .pcard-badge{position:absolute;left:22px;bottom:22px;z-index:2}
   .pcard-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
   .pcard-img{position:relative}
 
