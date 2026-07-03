@@ -30,8 +30,8 @@
   .roundel{width:36px;height:36px;flex:none}
   .brand-name{font-family:'Fraunces',serif;font-size:21px;letter-spacing:.5px;color:var(--cream)}
   .navlinks{display:flex;gap:24px;align-items:center}
-  .navlinks button{background:none;border:none;color:var(--mist);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0;transition:color .25s}
-  .navlinks button:hover,.navlinks button.on{color:var(--gold-soft)}
+  .navlinks button,.navlinks a{background:none;border:none;color:var(--mist);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0;transition:color .25s;text-decoration:none}
+  .navlinks button:hover,.navlinks button.on,.navlinks a:hover{color:var(--gold-soft)}
 
   /* ---- scrolling day-arc homepage ---- */
 
@@ -55,7 +55,7 @@
   footer .fbrand{font-family:'Fraunces',serif;font-size:18px;color:var(--cream);margin-bottom:6px}
   footer .ftag{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);margin-bottom:18px}
   footer .fnote{font-size:11px;color:var(--sage);font-weight:300;max-width:60ch;margin:0 auto;line-height:1.6;opacity:.75}
-  @media(max-width:760px){nav{padding:14px 20px}.navlinks{gap:12px}.navlinks button{font-size:10px;letter-spacing:1px}.angle-hero{padding:110px 24px 70px}.angle-back{margin:0 24px 40px}}
+  @media(max-width:760px){nav{padding:14px 20px}.navlinks{gap:12px}.navlinks button{font-size:10px;letter-spacing:1px}.angle-hero{padding:110px 24px 70px}.angle-back{margin:0 24px 40px}.navlinks a{font-size:10px;letter-spacing:1px}}
   @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 
   .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden}
@@ -185,10 +185,12 @@
   </button>
   <div class="navlinks">
     <button onclick="go('home')" id="nav-home" class="on">The Forest</button>
+    <a href="products/small-panel.html">Shop</a>
     <button onclick="go('haven')" id="nav-haven">Haven</button>
     <button onclick="go('focus')" id="nav-focus">Focus</button>
     <button onclick="go('stillness')" id="nav-stillness">Stillness</button>
     <button onclick="go('dusk')" id="nav-dusk">Dusk</button>
+    <a href="learn/faq.html">Learn</a>
   </div>
 </nav>
 
