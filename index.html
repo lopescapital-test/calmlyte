@@ -32,6 +32,7 @@
   .navlinks{display:flex;gap:24px;align-items:center}
   .navlinks button,.navlinks a{background:none;border:none;color:var(--mist);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0;transition:color .25s;text-decoration:none}
   .navlinks button:hover,.navlinks button.on,.navlinks a:hover{color:var(--gold-soft)}
+  .navsep{width:1px;height:14px;background:rgba(198,207,196,.25)}
 
   /* ---- scrolling day-arc homepage ---- */
 
@@ -185,11 +186,13 @@
   </button>
   <div class="navlinks">
     <button onclick="go('home')" id="nav-home" class="on">The Forest</button>
-    <a href="products/small-panel.html">Shop</a>
+    <span class="navsep"></span>
     <button onclick="go('haven')" id="nav-haven">Haven</button>
     <button onclick="go('focus')" id="nav-focus">Focus</button>
     <button onclick="go('stillness')" id="nav-stillness">Stillness</button>
     <button onclick="go('dusk')" id="nav-dusk">Dusk</button>
+    <span class="navsep"></span>
+    <a href="products/index.html">Shop</a>
     <a href="learn/faq.html">Learn</a>
   </div>
 </nav>
