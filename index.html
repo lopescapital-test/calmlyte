@@ -14,527 +14,616 @@
 <!-- TODO: set canonical + absolute og:image URL once domain is live -->
 <!-- <link rel="canonical" href="https://calmlyte.com/"> -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231C2E24' stroke='%23D9B368' stroke-width='3'/%3E%3Cg fill='%232E4636'%3E%3Cpath d='M30 78 L34 54 L38 78Z'/%3E%3Cpath d='M40 80 L45 46 L50 80Z'/%3E%3Cpath d='M52 80 L58 42 L64 80Z'/%3E%3Cpath d='M64 78 L68 52 L72 78Z'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="preload" as="image" href="assets/forest-dusk.webp">
+<link rel="preload" as="image" href="assets/forest-haven.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--bark:#0F1712;--gold:#D9B368;--gold-soft:#E7CE9B;--cream:#EDE8DC;--sage:#8A9B84;--mist:#C6CFC4}
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:'IBM Plex Sans',sans-serif;background:var(--bark);color:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  .serif{font-family:'Fraunces',serif}
-  .page{display:none}.page.active{display:block}
-  nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;background:linear-gradient(to bottom,rgba(15,23,18,.6),transparent)}
-  .brand{display:flex;align-items:center;gap:12px;cursor:pointer;border:none;background:none;color:inherit}
-  .roundel{width:36px;height:36px;flex:none}
-  .brand-name{font-family:'Fraunces',serif;font-size:21px;letter-spacing:.5px;color:var(--cream)}
-  .navlinks{display:flex;gap:24px;align-items:center}
-  .navlinks button,.navlinks a{background:none;border:none;color:var(--mist);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding:6px 0;transition:color .25s;text-decoration:none}
-  .navlinks button:hover,.navlinks button.on,.navlinks a:hover{color:var(--gold-soft)}
-  .navsep{width:1px;height:14px;background:rgba(198,207,196,.25)}
+/* ============================================================
+   Calmlyte — deep-forest palette. Depth comes from hairline
+   borders + gentle lifts; there are no drop-shadows.
+   ============================================================ */
+:root{
+  --bark:#0F1712; --bark2:#141F19; --panel:#16211B;
+  --gold:#D9B368; --gold-soft:#E7CE9B;
+  --cream:#EDE8DC; --sage:#8A9B84; --mist:#C6CFC4;
+  --line:rgba(198,207,196,.14); --line-gold:rgba(217,179,104,.45);
+  --font-serif:'Fraunces',Georgia,serif;
+  --font-sans:'IBM Plex Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bark);color:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.gated{overflow:hidden}
+.serif{font-family:var(--font-serif)}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
 
-  /* ---- scrolling day-arc homepage ---- */
+@keyframes clFade{from{opacity:0}to{opacity:1}}
+@keyframes clZoom{from{transform:scale(1.1)}to{transform:scale(1)}}
+@keyframes clFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes clArrow{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 
+/* ---------- intro gate (skipped when arriving on a #mode link) ---------- */
+.gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bark);transition:opacity 1.1s ease,visibility 1.1s ease}
+.gate.out{opacity:0;visibility:hidden;pointer-events:none}
+.gate.skip{display:none}
+.gate-bg{position:absolute;inset:0;background-image:url('assets/forest-haven.webp');background-size:cover;background-position:center;animation:clZoom 22s ease-out both}
+.gate-veil{position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(15,23,18,.35) 0%,rgba(15,23,18,.78) 100%)}
+.gate-inner{position:relative;text-align:center;padding:0 6vw;max-width:820px;animation:clFadeUp 1.3s ease both}
+.gate-logo{display:flex;justify-content:center;margin-bottom:26px}
+.gate-eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:22px}
+.gate h1{font-family:var(--font-serif);font-weight:300;font-size:clamp(44px,8vw,82px);line-height:1.02;letter-spacing:-.01em;margin-bottom:22px}
+.gate h1 em{font-style:italic;color:var(--gold-soft)}
+.gate-sub{font-size:clamp(15px,1.7vw,18px);color:var(--mist);font-weight:300;margin:0 auto 40px}
+.gate-btn{display:inline-flex;flex-direction:column;align-items:center;gap:16px;background:none;border:none;cursor:pointer;padding:0}
+.gate-btn .pill{padding:16px 40px;border:1px solid var(--gold);border-radius:10px;background:rgba(217,179,104,.08);color:var(--gold-soft);font-family:var(--font-sans);font-size:13px;font-weight:500;letter-spacing:3px;text-transform:uppercase;transition:background .3s ease,color .3s ease}
+.gate-btn:hover .pill{background:var(--gold);color:var(--bark)}
+.gate-btn .down{color:var(--mist);font-size:22px;animation:clArrow 2s ease-in-out infinite}
 
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;transition:background .4s ease,padding .4s ease}
+nav.scrolled{background:rgba(15,23,18,.88);backdrop-filter:blur(12px);padding:12px 40px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.roundel{width:34px;height:34px;flex:none}
+.brand-name{font-family:var(--font-serif);font-size:21px;letter-spacing:.5px;color:var(--cream)}
+.navlinks{display:flex;gap:24px;align-items:center}
+.navlinks a,.navlinks button{background:none;border:none;color:var(--mist);font-family:var(--font-sans);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;padding:6px 0;cursor:pointer;transition:color .25s}
+.navlinks a:hover,.navlinks button:hover,.navlinks a.on{color:var(--gold-soft)}
+.navsep{width:1px;height:14px;background:rgba(198,207,196,.25)}
+.nav-cart{white-space:nowrap;border:1px solid rgba(217,179,104,.5)!important;border-radius:20px;padding:7px 18px!important;color:var(--gold-soft)!important;transition:background .25s!important}
+.nav-cart:hover{background:rgba(217,179,104,.14)}
 
-  /* ---- product pages ---- */
-  .angle-hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:140px 8vw 80px;overflow:hidden}
-  .angle-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center}
-  .angle-veil{position:absolute;inset:0;z-index:1}
-  .angle-content{position:relative;z-index:2;max-width:720px}
-  .angle-eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:20px}
-  .angle-content h2{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(34px,5vw,58px);line-height:1.08;margin-bottom:22px;color:var(--cream)}
-  .angle-content h2 em{font-style:italic}
-  .angle-lede{font-size:18px;font-weight:300;margin-bottom:32px;line-height:1.6;color:var(--cream);max-width:75ch}
-  .buybtn{display:block;width:100%;text-align:center;background:var(--gold);color:var(--bark);border:none;border-radius:10px;padding:14px;font-weight:500;font-size:14px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .25s}
-  .buybtn:hover{background:var(--gold-soft)}
-  .disclaimer{font-size:11px;color:var(--sage);font-weight:300;margin-top:14px;line-height:1.5;opacity:.85}
-  .angle-back{position:relative;z-index:2;display:block;margin:0 8vw 60px;background:none;border:none;color:var(--mist);font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;padding-top:20px}
-  .angle-back:hover{color:var(--gold-soft)}
-  footer{padding:50px 8vw;background:var(--bark);text-align:center;border-top:1px solid rgba(198,207,196,.1)}
-  footer .fbrand{font-family:'Fraunces',serif;font-size:18px;color:var(--cream);margin-bottom:6px}
-  footer .ftag{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);margin-bottom:18px}
-  footer .fnote{font-size:11px;color:var(--sage);font-weight:300;max-width:60ch;margin:0 auto;line-height:1.6;opacity:.75}
-  @media(max-width:760px){nav{padding:14px 20px}.navlinks{gap:12px}.navlinks button{font-size:10px;letter-spacing:1px}.angle-hero{padding:110px 24px 70px}.angle-back{margin:0 24px 40px}.navlinks a{font-size:10px;letter-spacing:1px}}
-  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ---------- hero: the mode switcher ---------- */
+.hero{position:relative;min-height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.hero-scene{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .85s ease;will-change:opacity}
+.hero-scene.on{opacity:1}
+.hero-wash{position:absolute;inset:0;transition:background .85s ease;mix-blend-mode:multiply}
+.hero-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,23,18,.55) 0%,rgba(15,23,18,.25) 40%,rgba(15,23,18,.75) 100%)}
+.hero-inner{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;padding:104px 6vw 56px;max-width:1280px;width:100%;margin:0 auto}
+.switch-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:clamp(28px,5vh,54px)}
+.switch-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--mist);opacity:.85}
+.cl-switch{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:min(680px,100%);padding:6px;border:1px solid var(--line);border-radius:16px;background:rgba(15,23,18,.5)}
+.mode-btn{display:block;text-align:center;text-decoration:none;padding:12px 16px;border:1px solid transparent;border-radius:11px;background:transparent;color:var(--mist);font-family:var(--font-sans);font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:background .4s ease,color .4s ease,border-color .4s ease}
+.mode-btn .mt{display:block;font-size:10px;font-weight:300;letter-spacing:1px;opacity:.7;margin-top:3px}
+.mode-btn.on{background:rgba(217,179,104,.14);color:var(--gold-soft);border-color:rgba(217,179,104,.55)}
+.hero-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(32px,5vw,72px);align-items:center;flex:1}
+.mode-eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-soft)}
+.mode-head{font-family:var(--font-serif);font-weight:300;font-size:clamp(38px,6vw,68px);line-height:1.03;color:var(--cream);margin:16px 0 20px;letter-spacing:-.01em}
+.mode-head em{font-style:italic;color:var(--gold-soft)}
+.mode-blurb{font-size:clamp(16px,1.6vw,19px);color:var(--mist);font-weight:300;line-height:1.75;max-width:46ch;margin-bottom:32px}
+.cl-spec{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:34px;max-width:560px}
+.spec-cell{background:rgba(15,23,18,.72);padding:16px 18px}
+.spec-k{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:7px}
+.spec-v{font-size:13px;color:var(--cream);font-weight:300;line-height:1.4;white-space:pre-line}
+.cta-row{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.buybtn{background:var(--gold);color:var(--bark);border:none;border-radius:10px;padding:16px 28px;font-family:var(--font-sans);font-weight:500;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .25s}
+.buybtn:hover{background:var(--gold-soft)}
+.cta-note{font-size:13px;color:var(--sage);font-weight:300;line-height:1.55}
+.cta-note a{color:var(--gold-soft);text-decoration:none}
+.cta-note a:hover{text-decoration:underline}
+.hero-disc{position:relative;z-index:2;text-align:center;padding:0 6vw 26px;font-size:11px;color:var(--mist);font-weight:300;opacity:.75;max-width:70ch;margin:0 auto}
+/* right: fixed product with mode glow */
+.stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:clamp(340px,52vh,560px)}
+.stage-glow{position:absolute;inset:4% 10%;filter:blur(46px);transition:background .85s ease;will-change:background}
+.stage-panel{display:block;position:relative;z-index:1;width:clamp(240px,80%,420px);aspect-ratio:4/5;background-size:cover;background-position:center;background-image:url('assets/product-small-panel.webp');border:1px solid var(--line-gold);border-radius:16px;transition:border-color .35s}
+.stage-panel:hover{border-color:rgba(217,179,104,.8)}
+/* TODO PHOTOGRAPHY: representative render; replace with final cut-out Signature Panel photography. */
+.stage-cap{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mist);opacity:.7;white-space:nowrap}
+.mode-fade{animation:clFade .85s ease both}
 
-  .hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;overflow:hidden}
-  .hero-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center}
-  .hero-veil{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(15,23,18,.55),rgba(15,23,18,.35) 40%,rgba(15,23,18,.85))}
-  .hero>*{position:relative;z-index:2}
-  .hero-eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:24px}
-  .hero h1{font-family:'Fraunces',serif;font-weight:300;font-size:clamp(38px,6vw,74px);line-height:1.05;max-width:20ch;margin-bottom:20px;letter-spacing:-.5px}
-  .hero h1 em{font-style:italic;color:var(--gold-soft)}
-  .hero-sub{font-size:17px;color:var(--cream);max-width:60ch;margin-bottom:12px;font-weight:300}
-  .hero-tag{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:48px}
-  .paths-label{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--mist);margin-bottom:20px}
-  .paths{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;width:100%;max-width:1040px}
-  .path-card{position:relative;border:1px solid rgba(198,207,196,.16);border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;text-align:left;transition:transform .35s ease,border-color .35s ease}
-  .path-card:hover{transform:translateY(-6px);border-color:rgba(217,179,104,.55)}
-  .path-card .scene{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;transition:transform .6s ease}
-  .path-card:hover .scene{transform:scale(1.05)}
-  .path-card .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(15,23,18,.92) 6%,rgba(15,23,18,.2) 55%,rgba(15,23,18,.1))}
-  .path-card .label,.path-card .arrow{position:relative;z-index:2}
-  .path-card .time{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:6px}
-  .path-card .name{font-family:'Fraunces',serif;font-size:21px;color:var(--cream);margin-bottom:6px;line-height:1.1}
-  .path-card .desc{font-size:12px;color:var(--mist);font-weight:300;line-height:1.45}
-  .path-card .arrow{margin-top:14px;font-size:11px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase}
-  .hero-foot{margin-top:44px;font-size:12px;color:var(--mist);font-weight:300;max-width:58ch;opacity:.8}
-  @media(max-width:900px){.paths{grid-template-columns:repeat(2,1fr);max-width:520px}}
-  @media(max-width:520px){.paths{grid-template-columns:1fr;max-width:340px}.path-card{aspect-ratio:16/9}}
+/* ---------- shared section bits ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+.eyebrow{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:18px}
+.eyebrow.sage{color:var(--sage)}
+.h2{font-family:var(--font-serif);font-weight:300;font-size:clamp(30px,4.4vw,48px);line-height:1.06;color:var(--cream);margin-bottom:20px}
+.h2 em{font-style:italic;color:var(--gold-soft)}
+.lede{font-size:17px;font-weight:300;line-height:1.65;color:var(--cream);max-width:64ch}
+.smallnote{font-size:11px;color:var(--sage);font-weight:300;line-height:1.55;opacity:.85}
+.herolink{display:inline-block;color:var(--gold-soft);border:1px solid rgba(217,179,104,.5);border-radius:10px;padding:12px 22px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:background .25s}
+.herolink:hover{background:rgba(217,179,104,.15)}
 
+/* ---------- signature rooms ---------- */
+.rooms{background:var(--bark);padding:clamp(70px,10vh,110px) 6vw 90px;text-align:center}
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1180px;margin:52px auto 0}
+.room{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);transition:transform .4s ease,border-color .4s ease}
+.room:hover{transform:translateY(-6px);border-color:var(--line-gold)}
+.room img{width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform .8s ease}
+.room:hover img{transform:scale(1.04)}
+.room-cap{position:absolute;left:0;right:0;bottom:0;padding:44px 20px 16px;background:linear-gradient(to top,rgba(15,23,18,.9),transparent);text-align:left}
+.room-cap .rc-set{display:block;font-family:var(--font-serif);font-size:19px;color:var(--cream)}
+.room-cap .rc-sub{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft)}
+.rooms .lede{margin:0 auto}
 
-  .herolink{display:inline-block;color:var(--gold-soft);border:1px solid rgba(217,179,104,.5);border-radius:10px;padding:12px 22px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:background .25s}
-  .herolink:hover{background:rgba(217,179,104,.15)}
-  .shop{background:var(--bark);padding:70px 8vw 80px}
-  .shop h3{font-family:'Fraunces',serif;font-weight:300;font-size:30px;color:var(--cream);text-align:center;margin-bottom:8px}
-  .shop-sub{text-align:center;color:var(--mist);font-weight:300;font-size:14px;margin-bottom:44px}
-  .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;max-width:1120px;margin:0 auto}
-  .pcard{background:#16211B;border:1px solid rgba(198,207,196,.14);border-radius:14px;overflow:hidden;transition:transform .3s,border-color .3s}
-  .pcard:hover{transform:translateY(-5px);border-color:rgba(217,179,104,.45)}
-  .pcard-img{height:150px;background:linear-gradient(135deg,#1E2A22,#2E4636);position:relative;display:flex;align-items:flex-end;padding:12px}
-  .pcard-badge{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-soft);background:rgba(15,23,18,.6);border:1px solid rgba(217,179,104,.3);border-radius:20px;padding:4px 10px}
-  .pcard-body{padding:18px 18px 20px}
-  .pcard-name{font-family:'Fraunces',serif;font-size:18px;color:var(--cream);margin-bottom:4px}
-  .pcard-desc{font-size:12px;color:var(--mist);font-weight:300;margin-bottom:16px;min-height:32px}
-  .pcard-row{display:flex;align-items:center;justify-content:space-between}
-  .pcard-price{font-family:'Fraunces',serif;font-size:22px;color:var(--gold-soft)}
-  .pcard-btn{background:var(--gold);color:var(--bark);border:none;border-radius:8px;padding:9px 14px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;font-weight:500;cursor:pointer;transition:background .25s}
-  .pcard-btn:hover{background:var(--gold-soft)}
-  .ship-line{text-align:center;color:var(--sage);font-size:13px;margin-top:36px}
-  .disclaimer.center{text-align:center;max-width:64ch;margin:12px auto 0}
+/* ---------- family / shop ---------- */
+.shop{background:var(--bark2);border-top:1px solid var(--line);padding:clamp(70px,9vh,110px) 6vw}
+.shop-head{text-align:center;max-width:760px;margin:0 auto 54px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px;max-width:1180px;margin:0 auto}
+.pcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .3s,border-color .3s;display:flex;flex-direction:column;position:relative}
+.pcard:hover{transform:translateY(-5px);border-color:var(--line-gold)}
+.pcard-link{text-decoration:none;display:flex;flex-direction:column}
+.pcard-img{height:170px;overflow:hidden}
+.pcard-img img{width:100%;height:100%;object-fit:cover}
+.pcard-badge{position:absolute;top:12px;left:12px;z-index:2;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-soft);background:rgba(15,23,18,.6);border:1px solid rgba(217,179,104,.3);border-radius:20px;padding:4px 10px}
+.pcard-body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
+.pcard-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:4px}
+.pcard-name{font-family:var(--font-serif);font-size:18px;color:var(--cream);margin-bottom:4px}
+.pcard-desc{font-size:12px;color:var(--mist);font-weight:300;margin-bottom:14px;min-height:34px;flex:1}
+.pcard-row{display:flex;align-items:center;justify-content:space-between;padding:0 18px 20px}
+.pcard-price{font-size:16px;color:var(--cream);font-weight:300}
+.addbtn{background:none;border:1px solid rgba(217,179,104,.5);border-radius:8px;color:var(--gold-soft);font-family:var(--font-sans);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;cursor:pointer;transition:background .25s}
+.addbtn:hover{background:rgba(217,179,104,.14)}
+.shop-foot{text-align:center;margin:40px auto 0}
+.shop-note{text-align:center;margin:26px auto 0;max-width:60ch}
 
+/* ---------- learn teaser ---------- */
+.learn{background:var(--bark);border-top:1px solid var(--line);padding:clamp(70px,9vh,110px) 6vw;text-align:center}
+.learn-inner{max-width:760px;margin:0 auto}
+.learn .lede{margin:0 auto 34px}
+.specbar{margin:0 auto 34px;max-width:640px}
+.specbar svg{width:100%;height:auto;display:block}
+.learn-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 
-  .haven-card{position:relative;width:100%;max-width:1040px;height:340px;border:1px solid rgba(217,179,104,.35);border-radius:18px;overflow:hidden;cursor:pointer;margin-bottom:40px;display:block;text-align:left;transition:transform .35s,border-color .35s}
-  .haven-card:hover{transform:translateY(-5px);border-color:rgba(217,179,104,.7)}
-  .haven-scene{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s}
-  .haven-card:hover .haven-scene{transform:scale(1.04)}
-  .haven-veil{position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,23,18,.85) 30%,rgba(15,23,18,.25))}
-  .haven-label{position:relative;z-index:2;padding:40px 44px;max-width:520px;height:100%;display:flex;flex-direction:column;justify-content:center}
-  .haven-eyebrow{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:12px}
-  .haven-name{font-family:'Fraunces',serif;font-weight:300;font-size:44px;color:var(--cream);margin-bottom:12px;line-height:1}
-  .haven-desc{font-size:15px;color:var(--mist);font-weight:300;line-height:1.6;margin-bottom:20px}
-  .haven-enter{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold)}
-  .paths.three{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1040px}
-  @media(max-width:900px){.paths.three{grid-template-columns:1fr;max-width:340px}.haven-card{height:300px}.haven-name{font-size:34px}}
-  .hero-product{max-width:1040px;margin:0 auto 50px;display:grid;grid-template-columns:1fr 1.1fr;background:#16211B;border:1px solid rgba(217,179,104,.3);border-radius:16px;overflow:hidden}
-  .hp-img{background:linear-gradient(135deg,#20302A,#101813);min-height:320px;position:relative;display:flex;align-items:center;justify-content:center;padding:22px;margin:14px;border-radius:14px;overflow:hidden}
-  .hp-body{padding:36px 38px}
-  .hp-eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-soft);margin-bottom:10px}
-  .hp-name{font-family:'Fraunces',serif;font-weight:300;font-size:30px;color:var(--cream);margin-bottom:14px}
-  .hp-desc{font-size:15px;color:var(--mist);font-weight:300;line-height:1.65;margin-bottom:22px}
-  .hp-row{display:flex;align-items:center;gap:20px;margin-bottom:10px}
-  .ship{font-size:12px;color:var(--sage);margin-top:10px}
-  .pairline{margin-top:20px;padding-top:18px;border-top:1px solid rgba(198,207,196,.12);font-size:13px;color:var(--mist);font-weight:300;line-height:1.6}
-  .pairline .pair-em{color:var(--gold-soft);font-style:italic}
-  .hp-price{font-family:'Fraunces',serif;font-size:32px;color:var(--gold-soft)}
-  @media(max-width:760px){.hero-product{grid-template-columns:1fr}}
-  .also{max-width:1040px;margin:0 auto}
-  .also-label{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:20px;text-align:center}
-  .pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}
-  .pcard{background:#16211B;border:1px solid rgba(198,207,196,.14);border-radius:14px;overflow:hidden;transition:transform .3s,border-color .3s}
-  .pcard:hover{transform:translateY(-4px);border-color:rgba(217,179,104,.4)}
-  .pcard-img{height:120px;background:linear-gradient(135deg,#1E2A22,#2A3A2E);position:relative;display:flex;align-items:flex-end;padding:10px}
-  .pcard-badge{font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold-soft);background:rgba(15,23,18,.6);border:1px solid rgba(217,179,104,.3);border-radius:20px;padding:4px 9px}
-  .pcard-body{padding:16px}
-  .pcard-name{font-family:'Fraunces',serif;font-size:16px;color:var(--cream);margin-bottom:3px}
-  .pcard-desc{font-size:11px;color:var(--mist);font-weight:300;margin-bottom:14px;min-height:28px}
-  .pcard-row{display:flex;align-items:center;justify-content:space-between}
-  .pcard-price{font-family:'Fraunces',serif;font-size:19px;color:var(--gold-soft)}
-  .pcard-btn{background:rgba(217,179,104,.15);color:var(--gold-soft);border:1px solid rgba(217,179,104,.4);border-radius:8px;padding:7px 14px;font-size:11px;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:background .25s}
-  .pcard-btn:hover{background:rgba(217,179,104,.28)}
-  .shop{background:var(--bark);padding:64px 8vw 80px}
-  .disclaimer.center{text-align:center;max-width:64ch;margin:34px auto 0;color:var(--sage);font-size:11px;font-weight:300;line-height:1.5;opacity:.85}
-  .herolink{display:inline-block;color:var(--gold-soft);border:1px solid rgba(217,179,104,.5);border-radius:10px;padding:12px 22px;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:background .25s}
-  .herolink:hover{background:rgba(217,179,104,.15)}
+/* ---------- footer ---------- */
+footer{padding:70px 6vw 50px;background:var(--bark);text-align:center;border-top:1px solid var(--line)}
+footer .fbrand{font-family:var(--font-serif);font-size:20px;color:var(--cream);margin-bottom:6px}
+footer .ftag{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--sage);margin-bottom:22px}
+footer .fnote{font-size:11.5px;color:var(--sage);font-weight:300;max-width:62ch;margin:0 auto 18px;line-height:1.7;opacity:.8}
+footer .fmail{font-size:13px;color:var(--mist);font-weight:300}
+footer .fmail a{color:var(--gold-soft);text-decoration:none}
+footer .fmail a:hover{text-decoration:underline}
 
+/* ---------- toast ---------- */
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:var(--panel);border:1px solid rgba(217,179,104,.5);color:var(--cream);font-size:13px;font-weight:300;letter-spacing:.5px;border-radius:10px;padding:12px 22px;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s;z-index:210}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
-  .specband{max-width:1040px;margin:0 auto 40px;background:#141F19;border:1px solid rgba(198,207,196,.14);border-radius:16px;padding:30px 34px}
-  .specband-title{font-family:'Fraunces',serif;font-weight:300;font-size:20px;color:var(--cream);margin-bottom:20px}
-  .specrow{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-  .specitem{}
-  .speclabel{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
-  .specval{font-family:'Fraunces',serif;font-size:17px;color:var(--gold-soft)}
-  .specfeel{font-size:14px;color:var(--mist);font-weight:300;margin-top:18px;font-style:italic}
-  .specnote{font-size:10px;color:var(--sage);opacity:.7;margin-top:10px}
-  @media(max-width:700px){.specrow{grid-template-columns:repeat(2,1fr)}}
-
-
-  .hp-img{position:relative}
-  .hp-img img{position:static;display:block;max-width:100%;max-height:340px;width:auto;height:auto;border-radius:14px}
-  .hp-img .pcard-badge{position:absolute;left:22px;bottom:22px;z-index:2}
-  .pcard-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
-  .pcard-img{position:relative}
-
-  #cl-toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(16px);background:#16211B;border:1px solid rgba(217,179,104,.5);color:var(--cream);font-size:13px;padding:12px 20px;border-radius:10px;z-index:99;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s}
-  #cl-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ---------- responsive ---------- */
+@media(max-width:1000px){
+  .rooms-grid{grid-template-columns:1fr;max-width:520px}
+  .hero-body{gap:36px}
+  .stage{min-height:340px}
+}
+@media(max-width:760px){
+  nav{padding:14px 20px}
+  nav.scrolled{padding:10px 20px}
+  .navlinks{gap:12px}
+  .navlinks a,.navlinks button{font-size:10px;letter-spacing:1px}
+  .navlinks .hide-m{display:none}
+  .navsep{display:none}
+  .hero-inner{padding:96px 20px 44px}
+  .shop,.rooms,.learn{padding-left:24px;padding-right:24px}
+}
+@media(max-width:560px){.cl-switch{grid-template-columns:repeat(2,1fr)}.brand-name{display:none}.navlinks{gap:10px}}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+  .reveal{opacity:1;transform:none}
+  .gate{transition:opacity .01s,visibility .01s}
+}
 </style>
 </head>
-<body>
+<body class="gated">
 
-<nav>
-  <button class="brand" onclick="go('home')">
-    <svg class="roundel" viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <circle cx="50" cy="50" r="48" fill="#1C2E24" stroke="#D9B368" stroke-width="1.5"/>
-      <defs><clipPath id="rc"><circle cx="50" cy="50" r="47"/></clipPath>
-        <linearGradient id="rb" x1="50" y1="10" x2="50" y2="70" gradientUnits="userSpaceOnUse"><stop stop-color="#E7CE9B" stop-opacity=".9"/><stop offset="1" stop-color="#E7CE9B" stop-opacity="0"/></linearGradient></defs>
-      <g clip-path="url(#rc)"><polygon points="38,14 60,44 30,44" fill="url(#rb)"/>
-        <g fill="#2E4636"><path d="M30 78 L34 54 L38 78Z"/><path d="M40 80 L45 46 L50 80Z"/><path d="M52 80 L58 42 L64 80Z"/><path d="M64 78 L68 52 L72 78Z"/><path d="M22 78 L26 58 L30 78Z"/></g></g>
-    </svg>
+<!-- ================= ENTER THE FOREST (intro gate) =================
+     Shown on clean entry only; arriving on a #haven/#focus/... link
+     (e.g. from a product page) skips it. -->
+<div class="gate" id="gate">
+  <div class="gate-bg" aria-hidden="true"></div>
+  <div class="gate-veil" aria-hidden="true"></div>
+  <div class="gate-inner">
+    <div class="gate-logo">
+      <svg width="60" height="60" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#1C2E24" stroke="#D9B368" stroke-width="3"/><g fill="#2E4636"><path d="M30 78 L34 54 L38 78Z"/><path d="M40 80 L45 46 L50 80Z"/><path d="M52 80 L58 42 L64 80Z"/><path d="M64 78 L68 52 L72 78Z"/></g></svg>
+    </div>
+    <p class="gate-eyebrow">520–530&nbsp;nm · narrow-band green light</p>
+    <h1>A calmer kind of <em>light</em>.</h1>
+    <p class="gate-sub">One forest. One light. Four ways to shift a room through the day.</p>
+    <button class="gate-btn" id="enterBtn">
+      <span class="pill">Enter the forest</span>
+      <span class="down" aria-hidden="true">↓</span>
+    </button>
+  </div>
+</div>
+
+<nav id="nav">
+  <a class="brand" href="index.html" aria-label="Calmlyte home">
+    <svg class="roundel" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#1C2E24" stroke="#D9B368" stroke-width="3"/><g fill="#2E4636"><path d="M30 78 L34 54 L38 78Z"/><path d="M40 80 L45 46 L50 80Z"/><path d="M52 80 L58 42 L64 80Z"/><path d="M64 78 L68 52 L72 78Z"/></g></svg>
     <span class="brand-name">Calmlyte</span>
-  </button>
+  </a>
   <div class="navlinks">
-    <button onclick="go('home')" id="nav-home" class="on">The Forest</button>
-    <span class="navsep"></span>
-    <button onclick="go('haven')" id="nav-haven">Haven</button>
-    <button onclick="go('focus')" id="nav-focus">Focus</button>
-    <button onclick="go('stillness')" id="nav-stillness">Stillness</button>
-    <button onclick="go('dusk')" id="nav-dusk">Dusk</button>
+    <a href="#haven" data-mode-link="haven">Haven</a>
+    <a href="#focus" data-mode-link="focus" class="hide-m">Focus</a>
+    <a href="#stillness" data-mode-link="stillness" class="hide-m">Stillness</a>
+    <a href="#dusk" data-mode-link="dusk">Dusk</a>
     <span class="navsep"></span>
     <a href="products/index.html">Shop</a>
-    <a href="learn/faq.html">Learn</a>
+    <a href="learn/faq.html" class="hide-m">Learn</a>
+    <span class="navsep"></span>
+    <button class="nav-cart" id="cartBtn">Cart</button>
   </div>
 </nav>
 
-<!-- ================= HOME: scroll through the day ================= -->
-<section class="page active" id="home">
-  <div class="hero">
-    <div class="hero-bg" data-bg="assets/forest-dusk.webp"></div>
-    <div class="hero-veil"></div>
-    <div class="hero-eyebrow">520–530&nbsp;nm · narrow-band green light</div>
-    <h1 class="serif">A calmer kind of <em>light</em>.</h1>
-    <p class="hero-sub">One forest. One light. Your natural environment, with a few ways to shift it through the&nbsp;day.</p>
-    <button class="haven-card" onclick="go('haven')">
-      <div class="haven-scene" data-bg="assets/forest-haven.webp"></div>
-      <div class="haven-veil"></div>
-      <div class="haven-label">
-        <div class="haven-eyebrow">The heart of Calmlyte</div>
-        <div class="haven-name serif">Haven</div>
-        <div class="haven-desc">Your natural environment. A soft, low-stimulation calm to return to. It's the default setting for the light, and for you.</div>
-        <div class="haven-enter">Enter Haven →</div>
+<!-- ================= HERO — one panel, four ways through the day ================= -->
+<header class="hero" id="top">
+  <div class="hero-scene" data-scene="haven" style="background-image:url('assets/forest-haven.webp')" aria-hidden="true"></div>
+  <div class="hero-scene" data-scene="focus" style="background-image:url('assets/forest-morning.webp')" aria-hidden="true"></div>
+  <div class="hero-scene" data-scene="stillness" style="background-image:url('assets/forest-rain.webp')" aria-hidden="true"></div>
+  <div class="hero-scene" data-scene="dusk" style="background-image:url('assets/forest-dusk.webp')" aria-hidden="true"></div>
+  <div class="hero-wash" id="heroWash" aria-hidden="true"></div>
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="switch-wrap">
+      <p class="switch-label">One panel · four ways through the day</p>
+      <div class="cl-switch" role="tablist" aria-label="Calmlyte setting">
+        <a class="mode-btn" role="tab" href="#haven" data-mode-btn="haven" aria-selected="false">Haven<span class="mt">Everyday</span></a>
+        <a class="mode-btn" role="tab" href="#focus" data-mode-btn="focus" aria-selected="false">Focus<span class="mt">Morning</span></a>
+        <a class="mode-btn" role="tab" href="#stillness" data-mode-btn="stillness" aria-selected="false">Stillness<span class="mt">Midday rain</span></a>
+        <a class="mode-btn" role="tab" href="#dusk" data-mode-btn="dusk" aria-selected="false">Dusk<span class="mt">Golden hour</span></a>
       </div>
-    </button>
-    <div class="paths-label">Or shift the environment</div>
-    <div class="paths three">
-      <button class="path-card" onclick="go('focus')">
-        <div class="scene" data-bg="assets/forest-morning.webp"></div>
-        <div class="veil"></div>
-        <div class="label"><div class="time">Morning</div><div class="name serif">Focus</div><div class="desc">Reset after the screens.</div></div>
-        <div class="arrow">Enter →</div>
-      </button>
-      <button class="path-card" onclick="go('stillness')">
-        <div class="scene" data-bg="assets/forest-rain.webp"></div>
-        <div class="veil"></div>
-        <div class="label"><div class="time">Midday rain</div><div class="name serif">Stillness</div><div class="desc">A pause in a loud day.</div></div>
-        <div class="arrow">Enter →</div>
-      </button>
-      <button class="path-card" onclick="go('dusk')">
-        <div class="scene" data-bg="assets/forest-dusk.webp"></div>
-        <div class="veil"></div>
-        <div class="label"><div class="time">Golden hour</div><div class="name serif">Dusk</div><div class="desc">Wind down for the evening.</div></div>
-        <div class="arrow">Enter →</div>
-      </button>
     </div>
-    <p class="hero-foot">Calmlyte is one wellness lamp with gentle settings for different moments. It is not a medical device and is not intended to diagnose, treat, cure, or prevent any disease.</p>
+
+    <div class="hero-body">
+      <div>
+        <div id="modeCopy" class="mode-fade">
+          <p class="mode-eyebrow" id="modeEyebrow"></p>
+          <h1 class="mode-head" id="modeHead"></h1>
+          <p class="mode-blurb" id="modeBlurb"></p>
+        </div>
+        <div class="cl-spec mode-fade" id="modeSpec"></div>
+        <div class="cta-row">
+          <button class="buybtn" data-sku="small-panel" data-price="600" data-name="Signature Panel">Add Signature Panel · $600</button>
+          <p class="cta-note">The Signature Panel includes every Calmlyte setting.<br>Ships free in the US · delivered in 10–14 business days. <a href="products/signature-panel.html">View details →</a></p>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="stage-glow" id="stageGlow" aria-hidden="true"></div>
+        <!-- TODO PHOTOGRAPHY: representative render; replace with final cut-out Signature Panel photography. -->
+        <a class="stage-panel" href="products/signature-panel.html" aria-label="Calmlyte Signature Panel — view product"></a>
+        <p class="stage-cap">The setting changes. The panel stays the same.</p>
+      </div>
+    </div>
+  </div>
+  <p class="hero-disc">Calmlyte is one wellness lamp with gentle settings for different moments. It is not a medical device and is not intended to diagnose, treat, cure, or prevent any disease.</p>
+</header>
+
+<!-- ================= SIGNATURE — one light, three rooms ================= -->
+<section class="rooms">
+  <div class="reveal">
+    <p class="eyebrow">The Signature Panel at home</p>
+    <h2 class="h2">One light. <em>Every room.</em></h2>
+    <p class="lede">The same narrow-band 520–530 nm green spectrum, shifting its character with the day — a balanced mid-morning tone, a soft diffused pause, a warm low evening.</p>
+  </div>
+  <div class="rooms-grid">
+    <figure class="room reveal">
+      <img src="assets/sig-day.webp" alt="Calmlyte Signature Panel on a wooden desk in daylight, Haven setting" loading="lazy">
+      <figcaption class="room-cap"><span class="rc-sub">Mid-morning</span><span class="rc-set serif">Haven</span></figcaption>
+    </figure>
+    <figure class="room reveal" style="transition-delay:.12s">
+      <img src="assets/sig-still.webp" alt="Calmlyte Signature Panel in a quiet study on a rainy afternoon, Stillness setting" loading="lazy">
+      <figcaption class="room-cap"><span class="rc-sub">A quiet rain</span><span class="rc-set serif">Stillness</span></figcaption>
+    </figure>
+    <figure class="room reveal" style="transition-delay:.24s">
+      <img src="assets/sig-dusk.webp" alt="Calmlyte Signature Panel on a bedside table in the evening, Dusk setting" loading="lazy">
+      <figcaption class="room-cap"><span class="rc-sub">Golden hour</span><span class="rc-set serif">Dusk</span></figcaption>
+    </figure>
   </div>
 </section>
 
+<!-- ================= THE CALMLYTE FAMILY ================= -->
+<section class="shop" id="shop">
+  <div class="shop-head reveal">
+    <p class="eyebrow sage">One spectrum · five forms</p>
+    <h2 class="h2">The Calmlyte <em>family</em></h2>
+    <p class="lede" style="margin:0 auto">Every Calmlyte product is built around the same narrow-band 520–530 nm green spectrum. Choose the form that fits your space — from the Signature Panel to a wearable, a handheld, and a full-room system.</p>
+  </div>
+  <div class="pgrid">
+    <div class="pcard reveal">
+      <a class="pcard-link" href="products/belt.html">
+        <div class="pcard-img"><img src="assets/product-belt.webp" alt="Calmlyte Belt" loading="lazy"></div>
+        <div class="pcard-body">
+          <p class="pcard-tag">Wearable</p>
+          <p class="pcard-name">Belt</p>
+          <p class="pcard-desc">A wearable green-light wrap for quiet moments.</p>
+        </div>
+      </a>
+      <div class="pcard-row"><span class="pcard-price">$200</span><button class="addbtn" data-sku="belt" data-price="200" data-name="Belt">Add</button></div>
+    </div>
+    <div class="pcard reveal" style="transition-delay:.08s">
+      <a class="pcard-link" href="products/mask.html">
+        <div class="pcard-img"><img src="assets/product-mask.webp" alt="Calmlyte Mask" loading="lazy"></div>
+        <div class="pcard-body">
+          <p class="pcard-tag">Personal</p>
+          <p class="pcard-name">Mask</p>
+          <p class="pcard-desc">A personal green-and-amber evening light.</p>
+        </div>
+      </a>
+      <div class="pcard-row"><span class="pcard-price">$400</span><button class="addbtn" data-sku="mask" data-price="400" data-name="Mask">Add</button></div>
+    </div>
+    <div class="pcard reveal" style="transition-delay:.16s">
+      <a class="pcard-link" href="products/handheld.html">
+        <div class="pcard-img"><img src="assets/product-handheld.webp" alt="Calmlyte Handheld" loading="lazy"></div>
+        <div class="pcard-body">
+          <p class="pcard-tag">Portable</p>
+          <p class="pcard-name">Handheld</p>
+          <p class="pcard-desc">Portable green light for desks and travel.</p>
+        </div>
+      </a>
+      <div class="pcard-row"><span class="pcard-price">$450</span><button class="addbtn" data-sku="handheld" data-price="450" data-name="Handheld">Add</button></div>
+    </div>
+    <div class="pcard reveal" style="transition-delay:.24s">
+      <span class="pcard-badge">Signature</span>
+      <a class="pcard-link" href="products/signature-panel.html">
+        <div class="pcard-img"><img src="assets/product-small-panel.webp" alt="Calmlyte Signature Panel" loading="lazy"></div>
+        <div class="pcard-body">
+          <p class="pcard-tag">Signature</p>
+          <p class="pcard-name">Signature Panel</p>
+          <p class="pcard-desc">The signature Calmlyte light for a room or desk.</p>
+        </div>
+      </a>
+      <div class="pcard-row"><span class="pcard-price">$600</span><button class="addbtn" data-sku="small-panel" data-price="600" data-name="Signature Panel">Add</button></div>
+    </div>
+    <div class="pcard reveal" style="transition-delay:.32s">
+      <a class="pcard-link" href="products/panel-pro.html">
+        <div class="pcard-img"><img src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro" loading="lazy"></div>
+        <div class="pcard-body">
+          <p class="pcard-tag">Full room</p>
+          <p class="pcard-name">Panel Pro</p>
+          <p class="pcard-desc">The full-size system for larger spaces.</p>
+        </div>
+      </a>
+      <div class="pcard-row"><span class="pcard-price">$2,000</span><button class="addbtn" data-sku="panel-pro" data-price="2000" data-name="Panel Pro">Add</button></div>
+    </div>
+  </div>
+  <div class="shop-foot reveal"><a class="herolink" href="products/index.html">View all products →</a></div>
+  <p class="shop-note smallnote">Calmlyte is a wellness product that shapes the light and atmosphere of a room. It is not a medical device and is not intended to diagnose, treat, cure, or prevent any condition.</p>
+</section>
 
-
-<section class="page" id="haven">
-  <div class="angle-hero">
-    <div class="angle-bg" data-bg="assets/forest-haven.webp"></div>
-    <div class="angle-veil" style="background:linear-gradient(105deg,rgba(15,20,18,.86) 30%,rgba(15,20,18,.22))"></div>
-    <div class="angle-content">
-      <div class="angle-eyebrow" style="color:#C6CFC4">Haven · mid-morning forest</div>
-      <h2 class="serif">Your everyday forest.</h2>
-      <p class="angle-lede">Soft green light inspired by a quiet mid-morning canopy, designed to help your space feel calmer, clearer, and more grounded.</p>
-      <a href="#haven-shop" class="herolink">Shop Haven</a>
+<!-- ================= LEARN TEASER — full article lives at learn/green-light.html ================= -->
+<section class="learn" id="learn">
+  <div class="learn-inner">
+    <div class="reveal">
+      <p class="eyebrow">Learn · the Calmlyte spectrum</p>
+      <h2 class="h2">Light is a <em>spectrum</em></h2>
+      <p class="lede">The light we can see is a small band of the electromagnetic spectrum. Within it, wavelength determines color — and Calmlyte's narrow-band green sits at 520–530 nm, in the middle of the visible range.</p>
+    </div>
+    <div class="specbar reveal">
+      <svg viewBox="0 0 800 70" role="img" aria-label="Visible spectrum from violet to red with Calmlyte's green band marked at 520 to 530 nanometers">
+        <defs>
+          <linearGradient id="vis" x1="0" x2="1">
+            <stop offset="0" stop-color="#6E5BA6"/><stop offset=".18" stop-color="#4B7FB5"/>
+            <stop offset=".33" stop-color="#5FA98C"/><stop offset=".42" stop-color="#69A85F"/>
+            <stop offset=".58" stop-color="#A9B25C"/><stop offset=".72" stop-color="#C99B55"/>
+            <stop offset="1" stop-color="#A85B4D"/>
+          </linearGradient>
+        </defs>
+        <rect x="0" y="26" width="800" height="18" rx="9" fill="url(#vis)" opacity=".85"/>
+        <rect x="310" y="18" width="34" height="34" rx="8" fill="none" stroke="#E7CE9B" stroke-width="1.5"/>
+        <text x="327" y="10" text-anchor="middle" fill="#E7CE9B" font-size="12" font-family="IBM Plex Sans,sans-serif" letter-spacing="1">520–530 nm</text>
+        <text x="327" y="66" text-anchor="middle" fill="#8A9B84" font-size="10" font-family="IBM Plex Sans,sans-serif" letter-spacing="1">CALMLYTE GREEN</text>
+      </svg>
+    </div>
+    <div class="learn-links reveal">
+      <a class="herolink" href="learn/green-light.html">Read: the Calmlyte spectrum →</a>
+      <a class="herolink" href="learn/faq.html">Questions &amp; answers →</a>
     </div>
   </div>
-  <div class="shop" id="haven-shop">
-    <div class="hero-product">
-      <div class="hp-img"><img loading="lazy" decoding="async" src="assets/product-small-panel.webp" alt="Calmlyte Small Panel"><span class="pcard-badge">Recommended</span></div>
-      <div class="hp-body">
-        <div class="hp-eyebrow">Recommended for Haven</div>
-        <div class="hp-name serif">Calmlyte Small Panel</div>
-        <div class="hp-desc">A compact green LED panel using a narrow-band 520–530 nm green light spectrum designed to create a softer, forest-inspired ambient environment. With adjustable brightness and multiple Calmlyte settings, it is the natural starting point for building your own calming light environment.</div>
-        <div class="hp-row"><span class="hp-price serif">$600</span><button class="buybtn" style="max-width:220px" data-sku="small-panel">Add to cart</button></div>
-      </div>
-    </div>
-    <div class="specband">
-      <div class="specband-inner">
-        <div class="specband-title serif">The Haven setting</div>
-        <div class="specrow">
-          <div class="specitem"><div class="speclabel">Primary light</div><div class="specval">520–530 nm green</div></div>
-          <div class="specitem"><div class="speclabel">Secondary tone</div><div class="specval">590 nm amber · 10–20%</div></div>
-          <div class="specitem"><div class="speclabel">Brightness</div><div class="specval">Medium</div></div>
-          <div class="specitem"><div class="speclabel">Session</div><div class="specval">15–30 min</div></div>
-        </div>
-        <p class="specfeel">Balanced mid-morning light, soft green with a gentle amber tone, inspired by sunlight filtering through leaves.</p>
-      </div>
-    </div>
-    <div class="also">
-      <div class="also-label">Also in the Calmlyte family</div>
-      <div class="pgrid"><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-belt.webp" alt="Calmlyte Belt"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Belt</div>
-          <div class="pcard-desc">Wearable wrap</div>
-          <div class="pcard-row"><span class="pcard-price serif">$200</span><button class="pcard-btn" data-sku="belt">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-mask.webp" alt="Calmlyte Mask"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Mask</div>
-          <div class="pcard-desc">Contoured face mask</div>
-          <div class="pcard-row"><span class="pcard-price serif">$400</span><button class="pcard-btn" data-sku="mask">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-handheld.webp" alt="Calmlyte Handheld"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Handheld</div>
-          <div class="pcard-desc">Portable wand</div>
-          <div class="pcard-row"><span class="pcard-price serif">$450</span><button class="pcard-btn" data-sku="handheld">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Panel Pro</div>
-          <div class="pcard-desc">Full-size panel · premium</div>
-          <div class="pcard-row"><span class="pcard-price serif">$2,000</span><button class="pcard-btn" data-sku="panel-pro">Add</button></div></div></div></div>
-    </div>
-    <p class="disclaimer center">Calmlyte is a wellness product, not a medical device. Not intended to diagnose, treat, cure, or prevent any condition. Statements have not been evaluated by the FDA.</p>
-  </div>
-  <button class="angle-back" onclick="go('home')">← Back to the forest</button>
-</section><section class="page" id="focus">
-  <div class="angle-hero">
-    <div class="angle-bg" data-bg="assets/forest-morning.webp"></div>
-    <div class="angle-veil" style="background:linear-gradient(105deg,rgba(15,20,18,.86) 30%,rgba(15,20,18,.22))"></div>
-    <div class="angle-content">
-      <div class="angle-eyebrow" style="color:#AEC8DA">Focus · morning forest</div>
-      <h2 class="serif">Step away from screens.</h2>
-      <p class="angle-lede">A brighter green-light setting for short daytime resets, designed to help your space feel clearer, fresher, and easier to return to after screen-heavy work.</p>
-      <a href="#focus-shop" class="herolink">Shop Focus ↓</a>
-    </div>
-  </div>
-  <div class="shop" id="focus-shop">
-    <div class="hero-product">
-      <div class="hp-img"><img loading="lazy" decoding="async" src="assets/product-handheld.webp" alt="Calmlyte Handheld"><span class="pcard-badge">Recommended</span></div>
-      <div class="hp-body">
-        <div class="hp-eyebrow">Recommended for Focus: Calmlyte Handheld</div>
-        <div class="hp-name serif">Calmlyte Handheld</div>
-        <div class="hp-desc">The Calmlyte Handheld is your portable green-light reset, designed for short daytime sessions at your desk, in your office, or between screen-heavy blocks. Use Focus when you want a brighter, cleaner light environment without leaving your workflow.</div>
-        <div class="hp-row"><span class="hp-price serif">$450</span><button class="buybtn" style="max-width:220px" data-sku="handheld">Add to cart</button></div>
-      </div>
-    </div>
-    <div class="specband">
-      <div class="specband-inner">
-        <div class="specband-title serif">The Focus setting</div>
-        <div class="specrow">
-          <div class="specitem"><div class="speclabel">Primary light</div><div class="specval">520–530 nm green</div></div>
-          <div class="specitem"><div class="speclabel">Secondary tone</div><div class="specval">490–500 nm cyan-green · <15%</div></div>
-          <div class="specitem"><div class="speclabel">Brightness</div><div class="specval">Bright</div></div>
-          <div class="specitem"><div class="speclabel">Session</div><div class="specval">10–20 min</div></div>
-        </div>
-        <p class="specfeel">Brighter and slightly cooler, inspired by the crisp feeling of a morning forest.</p>
-      </div>
-    </div>
-    <div class="also">
-      <div class="also-label">Also in the Calmlyte family</div>
-      <div class="pgrid"><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-belt.webp" alt="Calmlyte Belt"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Belt</div>
-          <div class="pcard-desc">Wearable wrap</div>
-          <div class="pcard-row"><span class="pcard-price serif">$200</span><button class="pcard-btn" data-sku="belt">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-mask.webp" alt="Calmlyte Mask"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Mask</div>
-          <div class="pcard-desc">Contoured face mask</div>
-          <div class="pcard-row"><span class="pcard-price serif">$400</span><button class="pcard-btn" data-sku="mask">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-small-panel.webp" alt="Calmlyte Small Panel"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Small Panel</div>
-          <div class="pcard-desc">Workspace ambience</div>
-          <div class="pcard-row"><span class="pcard-price serif">$600</span><button class="pcard-btn" data-sku="small-panel">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Panel Pro</div>
-          <div class="pcard-desc">Full-size panel · premium</div>
-          <div class="pcard-row"><span class="pcard-price serif">$2,000</span><button class="pcard-btn" data-sku="panel-pro">Add</button></div></div></div></div>
-    </div>
-    <p class="disclaimer center">Calmlyte is a wellness product, not a medical device. Not intended to diagnose, treat, cure, or prevent any condition.</p>
-  </div>
-  <button class="angle-back" onclick="go('home')">← Back to the forest</button>
-</section><section class="page" id="stillness">
-  <div class="angle-hero">
-    <div class="angle-bg" data-bg="assets/forest-rain.webp"></div>
-    <div class="angle-veil" style="background:linear-gradient(105deg,rgba(15,20,18,.86) 30%,rgba(15,20,18,.22))"></div>
-    <div class="angle-content">
-      <div class="angle-eyebrow" style="color:#9BB0A6">Stillness · rain forest</div>
-      <h2 class="serif">A softer place to pause.</h2>
-      <p class="angle-lede">A low, diffused green-light setting inspired by a quiet rain forest, designed for moments when your space needs to feel slower, softer, and less stimulating.</p>
-      <a href="#stillness-shop" class="herolink">Shop Stillness ↓</a>
-    </div>
-  </div>
-  <div class="shop" id="stillness-shop">
-    <div class="hero-product">
-      <div class="hp-img"><img loading="lazy" decoding="async" src="assets/product-small-panel.webp" alt="Calmlyte Small Panel"><span class="pcard-badge">Recommended</span></div>
-      <div class="hp-body">
-        <div class="hp-eyebrow">Recommended for Stillness Spaces</div>
-        <div class="hp-name serif">Calmlyte Small Panel</div>
-        <div class="hp-desc">The Calmlyte Small Panel creates a soft, low-stimulation green-light environment for decompression, meditation, reading, or quiet evening routines. Stillness uses a diffused 520–530 nm green spectrum with gentle amber warmth to help your space feel slower, softer, and more grounded.</div>
-        <div class="hp-row"><span class="hp-price serif">$600</span><button class="buybtn" style="max-width:220px" data-sku="small-panel">Add to cart</button></div>
-      </div>
-    </div>
-    <div class="specband">
-      <div class="specband-inner">
-        <div class="specband-title serif">The Stillness setting</div>
-        <div class="specrow">
-          <div class="specitem"><div class="speclabel">Primary light</div><div class="specval">520–530 nm green</div></div>
-          <div class="specitem"><div class="speclabel">Secondary tone</div><div class="specval">590 nm amber · 20–30%</div></div>
-          <div class="specitem"><div class="speclabel">Brightness</div><div class="specval">Soft, diffuse</div></div>
-          <div class="specitem"><div class="speclabel">Session</div><div class="specval">20–40 min</div></div>
-        </div>
-        <p class="specfeel">Softer, warmer, and more diffused, inspired by the quiet feeling of rain moving through the forest.</p>
-      </div>
-    </div>
-    <div class="also">
-      <div class="also-label">Also in the Calmlyte family</div>
-      <div class="pgrid"><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-belt.webp" alt="Calmlyte Belt"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Belt</div>
-          <div class="pcard-desc">Wearable wrap</div>
-          <div class="pcard-row"><span class="pcard-price serif">$200</span><button class="pcard-btn" data-sku="belt">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-mask.webp" alt="Calmlyte Mask"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Mask</div>
-          <div class="pcard-desc">Contoured face mask</div>
-          <div class="pcard-row"><span class="pcard-price serif">$400</span><button class="pcard-btn" data-sku="mask">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-handheld.webp" alt="Calmlyte Handheld"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Handheld</div>
-          <div class="pcard-desc">Portable wand</div>
-          <div class="pcard-row"><span class="pcard-price serif">$450</span><button class="pcard-btn" data-sku="handheld">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Panel Pro</div>
-          <div class="pcard-desc">Full-size panel · premium</div>
-          <div class="pcard-row"><span class="pcard-price serif">$2,000</span><button class="pcard-btn" data-sku="panel-pro">Add</button></div></div></div></div>
-    </div>
-    <p class="disclaimer center">Calmlyte is a wellness product, not a medical device. Not intended to diagnose, treat, cure, or prevent any condition.</p>
-  </div>
-  <button class="angle-back" onclick="go('home')">← Back to the forest</button>
-</section><section class="page" id="dusk">
-  <div class="angle-hero">
-    <div class="angle-bg" data-bg="assets/forest-dusk.webp"></div>
-    <div class="angle-veil" style="background:linear-gradient(105deg,rgba(15,20,18,.86) 30%,rgba(15,20,18,.22))"></div>
-    <div class="angle-content">
-      <div class="angle-eyebrow" style="color:#E7CE9B">Dusk · golden-hour forest</div>
-      <h2 class="serif">Ease into evening.</h2>
-      <p class="angle-lede">A warm, low-intensity green-and-amber setting inspired by golden-hour forest light. Dusk is designed for reading, resting, and evening transition, helping your room feel softer as the day winds down.</p>
-      <a href="#dusk-shop" class="herolink">Shop Dusk ↓</a>
-    </div>
-  </div>
-  <div class="shop" id="dusk-shop">
-    <div class="hero-product">
-      <div class="hp-img"><img loading="lazy" decoding="async" src="assets/product-mask.webp" alt="Calmlyte Mask"><span class="pcard-badge">Recommended</span></div>
-      <div class="hp-body">
-        <div class="hp-eyebrow">Recommended for Dusk: Calmlyte Mask</div>
-        <div class="hp-name serif">Calmlyte Mask</div>
-        <div class="hp-desc">The Calmlyte Mask brings a warm, low-intensity green-and-amber light close for a personal evening ritual. Dusk is designed for reading, resting, and transitioning out of the day. A quiet, low-light moment as the day winds down.</div>
-        <div class="hp-row"><span class="hp-price serif">$400</span><button class="buybtn" style="max-width:220px" data-sku="mask">Add to cart</button></div>
-        <div class="pairline">Pair with the <span class="pair-em">Calmlyte Small Panel</span> for evening room ambience.</div>
-      </div>
-    </div>
-    <div class="specband">
-      <div class="specband-inner">
-        <div class="specband-title serif">The Dusk setting</div>
-        <div class="specrow">
-          <div class="specitem"><div class="speclabel">Primary experience</div><div class="specval">Warm amber-dominant</div></div>
-          <div class="specitem"><div class="speclabel">Core spectrum</div><div class="specval">520–530 nm green · 590 nm amber support</div></div>
-          <div class="specitem"><div class="speclabel">Brightness</div><div class="specval">Lowest</div></div>
-          <div class="specitem"><div class="speclabel">Session</div><div class="specval">20–45 min</div></div>
-        </div>
-        <p class="specfeel">Warm, dim, and gently fading, inspired by golden-hour light moving through the forest.</p>
-      </div>
-    </div>
-    <div class="also">
-      <div class="also-label">Also in the Calmlyte family</div>
-      <div class="pgrid"><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-belt.webp" alt="Calmlyte Belt"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Belt</div>
-          <div class="pcard-desc">Wearable wrap</div>
-          <div class="pcard-row"><span class="pcard-price serif">$200</span><button class="pcard-btn" data-sku="belt">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-small-panel.webp" alt="Calmlyte Small Panel"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Small Panel</div>
-          <div class="pcard-desc">Evening room ambience</div>
-          <div class="pcard-row"><span class="pcard-price serif">$600</span><button class="pcard-btn" data-sku="small-panel">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-handheld.webp" alt="Calmlyte Handheld"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Handheld</div>
-          <div class="pcard-desc">Portable wand</div>
-          <div class="pcard-row"><span class="pcard-price serif">$450</span><button class="pcard-btn" data-sku="handheld">Add</button></div></div></div><div class="pcard"><div class="pcard-img"><img loading="lazy" decoding="async" src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro"></div>
-          <div class="pcard-body"><div class="pcard-name serif">Calmlyte Panel Pro</div>
-          <div class="pcard-desc">Full-size panel · premium</div>
-          <div class="pcard-row"><span class="pcard-price serif">$2,000</span><button class="pcard-btn" data-sku="panel-pro">Add</button></div></div></div></div>
-    </div>
-    <p class="disclaimer center">Calmlyte is a wellness product, not a medical device. Not intended to diagnose, treat, cure, or prevent any condition, and not a treatment for any sleep disorder.</p>
-  </div>
-  <button class="angle-back" onclick="go('home')">← Back to the forest</button>
 </section>
 
 <footer>
-  <div class="fbrand serif">Calmlyte</div>
-  <div class="ftag">A calmer kind of light</div>
-  <p class="fnote">Calmlyte is a wellness lamp emitting narrow-band 520–530&nbsp;nm green light, with four ambiance modes. It is not a medical device and has not been evaluated by the FDA to diagnose, treat, cure, or prevent any disease or condition. All orders ship in 10–14 days.</p>
-  <p class="fnote" style="margin-top:14px">Questions? <a href="mailto:hello@calmlyte.com" style="color:var(--gold-soft)">hello@calmlyte.com</a></p>
+  <p class="fbrand">Calmlyte</p>
+  <p class="ftag">A calmer kind of light</p>
+  <p class="fnote">Calmlyte is a wellness lamp emitting narrow-band 520–530&nbsp;nm green light, with four ambiance modes. It is not a medical device and has not been evaluated by the FDA to diagnose, treat, cure, or prevent any disease or condition. All orders ship free within the US, made to order and delivered in 10–14 business days, with 30-day returns.</p>
+  <p class="fmail">Questions? <a href="mailto:hello@calmlyte.com">hello@calmlyte.com</a></p>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-  /* ============================================================
-     CHECKOUT CONFIG — paste Stripe Payment Links here when ready.
-     Leave null to show the "coming soon" notice instead.
-     ============================================================ */
-  const CHECKOUT_LINKS = {
-    'small-panel': null,   // Calmlyte Small Panel — $600
-    'belt':        null,   // Calmlyte Belt — $200
-    'mask':        null,   // Calmlyte Mask — $400
-    'handheld':    null,   // Calmlyte Handheld — $450
-    'panel-pro':   null    // Calmlyte Panel Pro — $2,000
-  };
-  const CONTACT_EMAIL = 'hello@calmlyte.com';
+(function(){
+  "use strict";
+  var prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const PAGES = ['home','haven','focus','stillness','dusk'];
-  const TITLES = {
-    home:      'Calmlyte — a calmer kind of light',
-    haven:     'Haven · Calmlyte',
-    focus:     'Focus · Calmlyte',
-    stillness: 'Stillness · Calmlyte',
-    dusk:      'Dusk · Calmlyte'
-  };
-
-  function hydrateBackgrounds(scope){
-    scope.querySelectorAll('[data-bg]').forEach(el=>{
-      el.style.backgroundImage = "url('" + el.dataset.bg + "')";
-      el.removeAttribute('data-bg');
-    });
-  }
-
-  function show(id){
-    if(!PAGES.includes(id)) id = 'home';
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    const page = document.getElementById(id);
-    page.classList.add('active');
-    hydrateBackgrounds(page);
-    document.querySelectorAll('.navlinks button').forEach(b=>b.classList.remove('on'));
-    const nav = document.getElementById('nav-' + id);
-    if(nav) nav.classList.add('on');
-    document.title = TITLES[id];
-    window.scrollTo({top:0});
-  }
-
-  function go(id){ location.hash = '#/' + id; }
-
-  function route(){
-    const id = (location.hash.replace(/^#\/?/, '') || 'home').split('/')[0];
-    show(id);
-  }
-  window.addEventListener('hashchange', route);
-
-  /* checkout */
-  function toast(msg){
-    let t = document.getElementById('cl-toast');
-    if(!t){
-      t = document.createElement('div');
-      t.id = 'cl-toast';
-      t.setAttribute('role','status');
-      document.body.appendChild(t);
+  /* ---------- per-mode environment (scenes, washes, glows, copy, real specs) ---------- */
+  var MODES = {
+    haven: {
+      eyebrow: "Haven · mid-morning canopy",
+      headline: 'Your everyday <em>forest</em>.',
+      blurb: "Soft canopy light for the ordinary hours at home. Haven is the default green setting — balanced, grounded, and designed to help the room feel softer throughout the day.",
+      wash: "rgba(34,74,52,0.55)",
+      glow: "radial-gradient(ellipse at center, rgba(74,168,104,0.60) 0%, transparent 68%)",
+      spec: [
+        ["Spectrum", "520–530 nm green\n590 nm amber · 10–20%"],
+        ["Brightness", "Medium"],
+        ["Recommended", "Everyday ambient use"],
+        ["Session", "15–30 min"]
+      ]
+    },
+    focus: {
+      eyebrow: "Focus · morning forest",
+      headline: 'Step away from <em>screens</em>.',
+      blurb: "A brighter, cleaner setting inspired by early light through the trees. Focus is designed for daytime spaces that need to feel clearer, fresher, and easier to return to.",
+      wash: "rgba(38,78,74,0.52)",
+      glow: "radial-gradient(ellipse at center, rgba(120,206,190,0.58) 0%, transparent 68%)",
+      spec: [
+        ["Spectrum", "520–530 nm green\n490–500 nm cyan-green · <15%"],
+        ["Brightness", "Bright"],
+        ["Recommended", "Daytime room reset"],
+        ["Session", "10–20 min"]
+      ]
+    },
+    stillness: {
+      eyebrow: "Stillness · rain forest",
+      headline: 'A softer place to <em>pause</em>.',
+      blurb: "Sparse, diffused light and a lot of quiet. Stillness is designed for rooms that need to feel spacious, unhurried, and simple.",
+      wash: "rgba(42,60,54,0.56)",
+      glow: "radial-gradient(ellipse at center, rgba(150,190,168,0.52) 0%, transparent 68%)",
+      spec: [
+        ["Spectrum", "520–530 nm green\n590 nm amber · 20–30%"],
+        ["Brightness", "Soft, diffuse"],
+        ["Recommended", "Quiet ambient use"],
+        ["Session", "20–40 min"]
+      ]
+    },
+    dusk: {
+      eyebrow: "Dusk · golden-hour forest",
+      headline: 'Ease into <em>evening</em>.',
+      blurb: "Warm, low, amber-toned light for the end of the day. Dusk is designed for spaces that feel soft, dim, and gently winding down.",
+      wash: "rgba(74,50,26,0.54)",
+      glow: "radial-gradient(ellipse at center, rgba(231,206,155,0.62) 0%, transparent 68%)",
+      spec: [
+        ["Spectrum", "590 nm amber-dominant\n520–530 nm green core"],
+        ["Brightness", "Lowest"],
+        ["Recommended", "Evening ambient use"],
+        ["Session", "20–45 min"]
+      ]
     }
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(t._h);
-    t._h = setTimeout(()=>t.classList.remove('show'), 3200);
+  };
+  var TITLES = {
+    haven: "Haven · Calmlyte", focus: "Focus · Calmlyte",
+    stillness: "Stillness · Calmlyte", dusk: "Dusk · Calmlyte"
+  };
+  var HOME_TITLE = document.title;
+
+  /* Accepts both new (#haven) and legacy SPA (#/haven) hash formats. */
+  function modeFromHash(){
+    var id = location.hash.replace(/^#\/?/, "").split("/")[0];
+    return MODES[id] ? id : null;
   }
 
-  document.addEventListener('click', e=>{
-    const btn = e.target.closest('[data-sku]');
-    if(!btn) return;
-    const link = CHECKOUT_LINKS[btn.dataset.sku];
-    if(link){ window.location.href = link; }
-    else { toast('Checkout opens soon. Write us at ' + CONTACT_EMAIL); }
+  /* ---------- intro gate: skipped when arriving on a mode link ---------- */
+  var gate = document.getElementById("gate");
+  function dropGate(instant){
+    gate.classList.add(instant ? "skip" : "out");
+    document.body.classList.remove("gated");
+  }
+  document.getElementById("enterBtn").addEventListener("click", function(){
+    dropGate(false);
+    window.scrollTo(0, 0);
   });
 
-  route();
+  /* ---------- nav scrolled state ---------- */
+  var nav = document.getElementById("nav");
+  window.addEventListener("scroll", function(){
+    nav.classList.toggle("scrolled", window.scrollY > 40);
+  }, {passive:true});
+
+  /* ---------- mode switching ---------- */
+  var scenes = document.querySelectorAll(".hero-scene");
+  var wash = document.getElementById("heroWash");
+  var glow = document.getElementById("stageGlow");
+  var copyEl = document.getElementById("modeCopy");
+  var specEl = document.getElementById("modeSpec");
+  var eyebrowEl = document.getElementById("modeEyebrow");
+  var headEl = document.getElementById("modeHead");
+  var blurbEl = document.getElementById("modeBlurb");
+
+  function restartFade(el){
+    if (prefersReduced) return;
+    el.style.animation = "none";
+    void el.offsetWidth; /* reflow to restart the clFade animation */
+    el.style.animation = "";
+  }
+
+  function setMode(id, retitle){
+    var m = MODES[id];
+    if (!m) return;
+    scenes.forEach(function(s){ s.classList.toggle("on", s.getAttribute("data-scene") === id); });
+    wash.style.background = m.wash;
+    glow.style.background = m.glow;
+    eyebrowEl.textContent = m.eyebrow;
+    headEl.innerHTML = m.headline;
+    blurbEl.textContent = m.blurb;
+    specEl.innerHTML = m.spec.map(function(s){
+      return '<div class="spec-cell"><div class="spec-k">' + s[0] + '</div><div class="spec-v">' + s[1] + '</div></div>';
+    }).join("");
+    restartFade(copyEl);
+    restartFade(specEl);
+    document.querySelectorAll("[data-mode-btn]").forEach(function(b){
+      var on = b.getAttribute("data-mode-btn") === id;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    document.querySelectorAll("[data-mode-link]").forEach(function(b){
+      b.classList.toggle("on", b.getAttribute("data-mode-link") === id);
+    });
+    if (retitle) document.title = TITLES[id] || HOME_TITLE;
+  }
+
+  window.addEventListener("hashchange", function(){
+    var id = modeFromHash();
+    if (id){
+      setMode(id, true);
+      document.getElementById("top").scrollIntoView({behavior: prefersReduced ? "auto" : "smooth"});
+    }
+  });
+
+  /* initial route: a mode hash (internal nav from product/learn pages) skips the gate */
+  var initial = modeFromHash();
+  if (initial){
+    dropGate(true);
+    setMode(initial, true);
+  } else {
+    setMode("haven", false);
+  }
+
+  /* ---------- scroll reveals ---------- */
+  var revealEls = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && !prefersReduced){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, {threshold:.14});
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---------- cart (in-memory) + checkout stub ---------- */
+  /* CHECKOUT CONFIG — paste a Stripe Payment Link per SKU when ready; a set link
+     redirects instead of adding to the in-memory cart. Keep in sync with the
+     CHECKOUT_LINKS block on each product page. */
+  var CHECKOUT_LINKS = {
+    "small-panel": null,   // Calmlyte Signature Panel — $600
+    "belt":        null,   // Calmlyte Belt — $200
+    "mask":        null,   // Calmlyte Mask — $400
+    "handheld":    null,   // Calmlyte Handheld — $450
+    "panel-pro":   null    // Calmlyte Panel Pro — $2,000
+  };
+  var CONTACT_EMAIL = "hello@calmlyte.com";  // TODO: confirm the real monitored inbox before launch
+
+  var cart = [];
+  var cartBtn = document.getElementById("cartBtn");
+  var toast = document.getElementById("toast"), toastTimer = null;
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove("show"); }, 2800);
+  }
+  function renderCart(){
+    cartBtn.textContent = cart.length > 0 ? "Cart · " + cart.length : "Cart";
+  }
+
+  document.querySelectorAll("[data-sku]").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var sku = btn.getAttribute("data-sku");
+      var link = CHECKOUT_LINKS[sku];
+      if (link){ window.open(link, "_blank"); return; }
+      cart.push({ sku: sku, name: btn.getAttribute("data-name"), price: parseInt(btn.getAttribute("data-price"), 10) });
+      renderCart();
+      showToast(btn.getAttribute("data-name") + " added · $" + Number(btn.getAttribute("data-price")).toLocaleString("en-US"));
+    });
+  });
+
+  cartBtn.addEventListener("click", function(){
+    if (cart.length === 0){ showToast("Your cart is empty"); return; }
+    var total = cart.reduce(function(sum, item){ return sum + item.price; }, 0);
+    showToast(cart.length + (cart.length === 1 ? " item" : " items") + " · $" + total.toLocaleString("en-US") + " — checkout opens soon. Write us at " + CONTACT_EMAIL);
+  });
+})();
 </script>
 </body>
 </html>

@@ -6,13 +6,27 @@ Production-prepped static storefront. No backend required. Payments are stubbed
 
 ## Structure
 ```
-index.html          40 KB (was 8.1 MB single file)
+index.html          Hero storefront: intro gate + interactive mode-switcher
+                    (Haven/Focus/Stillness/Dusk), rooms, family grid, learn teaser
+products/           Shop index + 5 product pages (signature-panel, belt, mask,
+                    handheld, panel-pro)
+learn/              green-light.html (counsel-cleared spectrum article), faq.html
 assets/
-  forest-*.webp     4 scene backgrounds, 1920w, lazy-hydrated per page
-  product-*.webp    5 product shots, lazy-loaded
+  forest-*.webp     4 scene backgrounds (forest-haven doubles as the intro gate)
+  sig-*.webp        3 Signature Panel room shots (day / still / dusk)
+  product-*.webp    5 product shots
 ```
-Total payload: ~1.4 MB, fully cacheable. First paint loads only the home hero
-(preloaded) — other page backgrounds hydrate when navigated to.
+Total payload: ~1.5 MB, fully cacheable. The homepage accepts both #haven and
+legacy #/haven hashes; arriving on a mode hash skips the intro gate.
+
+## Naming
+The $600 panel is the **Signature Panel** site-wide (renamed from "Small Panel",
+2026-07-04). The Stripe SKU stays `small-panel` and the asset file stays
+`product-small-panel.webp` — display name and URLs only. NOTE: the Legal Review
+drafts still say "Small Panel"; apply the rename there via Emma/counsel during
+the copy re-review (do not edit those drafts directly). The redesign also
+rearranges cleared copy and adds new mode-blurb language — counsel pass required
+before go-live.
 
 ## Deploy (GitHub Pages — same flow as NeuroHome)
 ```powershell
