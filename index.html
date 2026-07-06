@@ -15,6 +15,7 @@
 <!-- <link rel="canonical" href="https://calmlyte.com/"> -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%231C2E24' stroke='%23D9B368' stroke-width='3'/%3E%3Cg fill='%232E4636'%3E%3Cpath d='M30 78 L34 54 L38 78Z'/%3E%3Cpath d='M40 80 L45 46 L50 80Z'/%3E%3Cpath d='M52 80 L58 42 L64 80Z'/%3E%3Cpath d='M64 78 L68 52 L72 78Z'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preload" as="image" href="assets/forest-haven.webp">
+<link rel="preload" as="image" href="assets/panel-haven.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -107,7 +108,7 @@ nav.scrolled{background:rgba(15,23,18,.88);backdrop-filter:blur(12px);padding:12
 /* right: fixed product with mode glow */
 .stage{position:relative;display:flex;align-items:center;justify-content:center;min-height:clamp(340px,52vh,560px)}
 .stage-glow{position:absolute;inset:4% 10%;filter:blur(46px);transition:background .85s ease;will-change:background}
-.stage-panel{display:block;position:relative;z-index:1;width:clamp(240px,80%,420px);aspect-ratio:4/5;background-size:cover;background-position:center;background-image:url('assets/product-small-panel.webp');border:1px solid var(--line-gold);border-radius:16px;transition:border-color .35s}
+.stage-panel{display:block;position:relative;z-index:1;width:clamp(240px,80%,420px);aspect-ratio:4/5;background-size:cover;background-position:center;background-image:url('assets/panel-haven.webp');border:1px solid var(--line-gold);border-radius:16px;transition:border-color .35s}
 .stage-panel:hover{border-color:rgba(217,179,104,.8)}
 /* TODO PHOTOGRAPHY: representative render; replace with final cut-out Signature Panel photography. */
 .stage-cap{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--mist);opacity:.7;white-space:nowrap}
@@ -183,7 +184,8 @@ footer .fmail a:hover{text-decoration:underline}
 @media(max-width:1000px){
   .rooms-grid{grid-template-columns:1fr;max-width:520px}
   .hero-body{gap:36px}
-  .stage{min-height:340px}
+  .stage{min-height:340px;flex-direction:column}
+  .stage-cap{position:static;transform:none;margin-top:14px;white-space:normal;text-align:center}
 }
 @media(max-width:760px){
   nav{padding:14px 20px}
@@ -278,8 +280,8 @@ footer .fmail a:hover{text-decoration:underline}
       </div>
       <div class="stage">
         <div class="stage-glow" id="stageGlow" aria-hidden="true"></div>
-        <!-- TODO PHOTOGRAPHY: representative render; replace with final cut-out Signature Panel photography. -->
-        <a class="stage-panel" href="products/signature-panel.html" aria-label="Calmlyte Signature Panel — view product"></a>
+        <!-- TODO PHOTOGRAPHY: per-mode renders (panel-<mode>.webp); swap for final photography before launch. -->
+        <a class="stage-panel mode-fade" id="stagePanel" href="products/signature-panel.html" aria-label="Calmlyte Signature Panel on a wood table — view product"></a>
         <p class="stage-cap">The setting changes. The panel stays the same.</p>
       </div>
     </div>
@@ -320,7 +322,7 @@ footer .fmail a:hover{text-decoration:underline}
   <div class="pgrid">
     <div class="pcard reveal">
       <a class="pcard-link" href="products/belt.html">
-        <div class="pcard-img"><img src="assets/product-belt.webp" alt="Calmlyte Belt" loading="lazy"></div>
+        <div class="pcard-img"><img src="assets/belt.webp" alt="Calmlyte Belt wrap coiled on a wood table, green LEDs lit inside" loading="lazy"></div>
         <div class="pcard-body">
           <p class="pcard-tag">Wearable</p>
           <p class="pcard-name">Belt</p>
@@ -331,7 +333,7 @@ footer .fmail a:hover{text-decoration:underline}
     </div>
     <div class="pcard reveal" style="transition-delay:.08s">
       <a class="pcard-link" href="products/mask.html">
-        <div class="pcard-img"><img src="assets/product-mask.webp" alt="Calmlyte Mask" loading="lazy"></div>
+        <div class="pcard-img"><img src="assets/mask.webp" alt="Calmlyte Mask resting on a wood table with a soft green glow beneath it" loading="lazy"></div>
         <div class="pcard-body">
           <p class="pcard-tag">Personal</p>
           <p class="pcard-name">Mask</p>
@@ -342,7 +344,7 @@ footer .fmail a:hover{text-decoration:underline}
     </div>
     <div class="pcard reveal" style="transition-delay:.16s">
       <a class="pcard-link" href="products/handheld.html">
-        <div class="pcard-img"><img src="assets/product-handheld.webp" alt="Calmlyte Handheld" loading="lazy"></div>
+        <div class="pcard-img"><img src="assets/handheld.webp" alt="Calmlyte Handheld standing on a wood table, round green LED head lit" loading="lazy"></div>
         <div class="pcard-body">
           <p class="pcard-tag">Portable</p>
           <p class="pcard-name">Handheld</p>
@@ -354,7 +356,7 @@ footer .fmail a:hover{text-decoration:underline}
     <div class="pcard reveal" style="transition-delay:.24s">
       <span class="pcard-badge">Signature</span>
       <a class="pcard-link" href="products/signature-panel.html">
-        <div class="pcard-img"><img src="assets/product-small-panel.webp" alt="Calmlyte Signature Panel" loading="lazy"></div>
+        <div class="pcard-img"><img src="assets/panel-haven.webp" alt="Calmlyte Signature Panel on a wood table against a leaf-shadowed green wall" loading="lazy"></div>
         <div class="pcard-body">
           <p class="pcard-tag">Signature</p>
           <p class="pcard-name">Signature Panel</p>
@@ -365,7 +367,7 @@ footer .fmail a:hover{text-decoration:underline}
     </div>
     <div class="pcard reveal" style="transition-delay:.32s">
       <a class="pcard-link" href="products/panel-pro.html">
-        <div class="pcard-img"><img src="assets/product-panel-pro.webp" alt="Calmlyte Panel Pro" loading="lazy"></div>
+        <div class="pcard-img"><img src="assets/panel-pro.webp" alt="Calmlyte Panel Pro full-height panel standing on a wood floor against a green wall" loading="lazy"></div>
         <div class="pcard-body">
           <p class="pcard-tag">Full room</p>
           <p class="pcard-name">Panel Pro</p>
@@ -432,6 +434,7 @@ footer .fmail a:hover{text-decoration:underline}
       blurb: "Soft canopy light for the ordinary hours at home. Haven is the default green setting — balanced, grounded, and designed to help the room feel softer throughout the day.",
       wash: "rgba(34,74,52,0.55)",
       glow: "radial-gradient(ellipse at center, rgba(74,168,104,0.60) 0%, transparent 68%)",
+      panel: "assets/panel-haven.webp",
       spec: [
         ["Spectrum", "520–530 nm green\n590 nm amber · 10–20%"],
         ["Brightness", "Medium"],
@@ -445,6 +448,7 @@ footer .fmail a:hover{text-decoration:underline}
       blurb: "A brighter, cleaner setting inspired by early light through the trees. Focus is designed for daytime spaces that need to feel clearer, fresher, and easier to return to.",
       wash: "rgba(38,78,74,0.52)",
       glow: "radial-gradient(ellipse at center, rgba(120,206,190,0.58) 0%, transparent 68%)",
+      panel: "assets/panel-focus.webp",
       spec: [
         ["Spectrum", "520–530 nm green\n490–500 nm cyan-green · <15%"],
         ["Brightness", "Bright"],
@@ -458,6 +462,7 @@ footer .fmail a:hover{text-decoration:underline}
       blurb: "Sparse, diffused light and a lot of quiet. Stillness is designed for rooms that need to feel spacious, unhurried, and simple.",
       wash: "rgba(42,60,54,0.56)",
       glow: "radial-gradient(ellipse at center, rgba(150,190,168,0.52) 0%, transparent 68%)",
+      panel: "assets/panel-stillness.webp",
       spec: [
         ["Spectrum", "520–530 nm green\n590 nm amber · 20–30%"],
         ["Brightness", "Soft, diffuse"],
@@ -470,7 +475,9 @@ footer .fmail a:hover{text-decoration:underline}
       headline: 'Ease into <em>evening</em>.',
       blurb: "Warm, low, amber-toned light for the end of the day. Dusk is designed for spaces that feel soft, dim, and gently winding down.",
       wash: "rgba(74,50,26,0.54)",
-      glow: "radial-gradient(ellipse at center, rgba(231,206,155,0.62) 0%, transparent 68%)",
+      /* halo stays green in every mode — the panel's light is green; only the room scene warms at dusk */
+      glow: "radial-gradient(ellipse at center, rgba(104,172,124,0.50) 0%, transparent 68%)",
+      panel: "assets/panel-dusk.webp",
       spec: [
         ["Spectrum", "590 nm amber-dominant\n520–530 nm green core"],
         ["Brightness", "Lowest"],
@@ -514,6 +521,7 @@ footer .fmail a:hover{text-decoration:underline}
   var glow = document.getElementById("stageGlow");
   var copyEl = document.getElementById("modeCopy");
   var specEl = document.getElementById("modeSpec");
+  var stagePanel = document.getElementById("stagePanel");
   var eyebrowEl = document.getElementById("modeEyebrow");
   var headEl = document.getElementById("modeHead");
   var blurbEl = document.getElementById("modeBlurb");
@@ -531,6 +539,8 @@ footer .fmail a:hover{text-decoration:underline}
     scenes.forEach(function(s){ s.classList.toggle("on", s.getAttribute("data-scene") === id); });
     wash.style.background = m.wash;
     glow.style.background = m.glow;
+    stagePanel.style.backgroundImage = "url('" + m.panel + "')";
+    restartFade(stagePanel);
     eyebrowEl.textContent = m.eyebrow;
     headEl.innerHTML = m.headline;
     blurbEl.textContent = m.blurb;
@@ -566,6 +576,14 @@ footer .fmail a:hover{text-decoration:underline}
   } else {
     setMode("haven", false);
   }
+
+  /* prefetch the other per-mode panel photos so mode switches don't flash */
+  window.addEventListener("load", function(){
+    Object.keys(MODES).forEach(function(id){
+      var img = new Image();
+      img.src = MODES[id].panel;
+    });
+  });
 
   /* ---------- scroll reveals ---------- */
   var revealEls = document.querySelectorAll(".reveal");

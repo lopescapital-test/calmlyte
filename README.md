@@ -14,7 +14,8 @@ learn/              green-light.html (counsel-cleared spectrum article), faq.htm
 assets/
   forest-*.webp     4 scene backgrounds (forest-haven doubles as the intro gate)
   sig-*.webp        3 Signature Panel room shots (day / still / dusk)
-  product-*.webp    5 product shots
+  panel-<mode>.webp 4 per-mode Signature Panel scenes (hero stage + PDP use haven)
+  belt/mask/handheld/panel-pro.webp  product scene shots
 ```
 Total payload: ~1.5 MB, fully cacheable. The homepage accepts both #haven and
 legacy #/haven hashes; arriving on a mode hash skips the intro gate.
