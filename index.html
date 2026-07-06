@@ -37,6 +37,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--font-sans);background:var(--bark);color:var(--cream);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 body.gated{overflow:hidden}
 .serif{font-family:var(--font-serif)}
+.nb{white-space:nowrap}
 img{display:block;max-width:100%}
 a{color:inherit}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
@@ -219,7 +220,7 @@ footer .fmail a:hover{text-decoration:underline}
       <svg width="60" height="60" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#1C2E24" stroke="#D9B368" stroke-width="3"/><g fill="#2E4636"><path d="M30 78 L34 54 L38 78Z"/><path d="M40 80 L45 46 L50 80Z"/><path d="M52 80 L58 42 L64 80Z"/><path d="M64 78 L68 52 L72 78Z"/></g></svg>
     </div>
     <p class="gate-eyebrow">520–530&nbsp;nm · narrow-band green light</p>
-    <h1>A calmer kind of <em>light</em>.</h1>
+    <h1>A calmer kind <span class="nb">of <em>light</em>.</span></h1>
     <p class="gate-sub">One forest. One light. Four ways to shift a room through the day.</p>
     <button class="gate-btn" id="enterBtn">
       <span class="pill">Enter the forest</span>
@@ -431,7 +432,7 @@ footer .fmail a:hover{text-decoration:underline}
   var MODES = {
     haven: {
       eyebrow: "Haven · mid-morning canopy",
-      headline: 'Your everyday <em>forest</em>.',
+      headline: 'Your <span class="nb">everyday <em>forest</em>.</span>',
       blurb: "Soft canopy light for the ordinary hours at home. Haven is the default green setting — balanced, grounded, and designed to help the room feel softer throughout the day.",
       wash: "rgba(34,74,52,0.55)",
       glow: "radial-gradient(ellipse at center, rgba(74,168,104,0.60) 0%, transparent 68%)",
@@ -445,7 +446,7 @@ footer .fmail a:hover{text-decoration:underline}
     },
     focus: {
       eyebrow: "Focus · morning forest",
-      headline: 'Step away from <em>screens</em>.',
+      headline: 'Step away <span class="nb">from <em>screens</em>.</span>',
       blurb: "A brighter, cleaner setting inspired by early light through the trees. Focus is designed for daytime spaces that need to feel clearer, fresher, and easier to return to.",
       wash: "rgba(38,78,74,0.52)",
       glow: "radial-gradient(ellipse at center, rgba(120,206,190,0.58) 0%, transparent 68%)",
@@ -459,7 +460,7 @@ footer .fmail a:hover{text-decoration:underline}
     },
     stillness: {
       eyebrow: "Stillness · rain forest",
-      headline: 'A softer place to <em>pause</em>.',
+      headline: 'A softer place <span class="nb">to <em>pause</em>.</span>',
       blurb: "Sparse, diffused light and a lot of quiet. Stillness is designed for rooms that need to feel spacious, unhurried, and simple.",
       wash: "rgba(42,60,54,0.56)",
       glow: "radial-gradient(ellipse at center, rgba(150,190,168,0.52) 0%, transparent 68%)",
@@ -473,7 +474,7 @@ footer .fmail a:hover{text-decoration:underline}
     },
     dusk: {
       eyebrow: "Dusk · golden-hour forest",
-      headline: 'Ease into <em>evening</em>.',
+      headline: 'Ease <span class="nb">into <em>evening</em>.</span>',
       blurb: "Warm, low, amber-toned light for the end of the day. Dusk is designed for spaces that feel soft, dim, and gently winding down.",
       wash: "rgba(74,50,26,0.54)",
       /* halo stays green in every mode — the panel's light is green; only the room scene warms at dusk */
